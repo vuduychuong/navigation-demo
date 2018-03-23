@@ -7,6 +7,9 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+ // Add the header at the top of the file to config uriPrefix
+#import <React/RCTLinkingManager.h>
+
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
@@ -33,5 +36,11 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
 
 @end

@@ -1,23 +1,18 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, AsyncStorage } from "react-native";
+import { NavigationActions } from "react-navigation";
+
+import NavigationService from "../../common/NavigationService";
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = ({ navigation, navigationOptions }) => {
         const params = navigation.state.params || {};
         console.log(params);
         return {
-            title: "Home",
             headerRight: (
                 <Button
                     onPress={params.increaseCount}
                     title="+1"
-                    color="#fff"
-                />
-            ),
-            headerLeft: (
-                <Button
-                    onPress={() => navigation.navigate("MyModal")}
-                    title="Info"
                     color="#fff"
                 />
             )
@@ -34,6 +29,11 @@ export default class HomeScreen extends React.Component {
 
     _increaseCount = () => {
         this.setState({ count: this.state.count + 1 });
+    };
+
+    _signOutAsync = async () => {
+        await AsyncStorage.clear();
+        NavigationService.navigate("Notifications");
     };
 
     render() {
@@ -55,6 +55,10 @@ export default class HomeScreen extends React.Component {
                             otherParam: "anything you want here"
                         })
                     }
+                />
+                <Button
+                    title="Actually, sign me out :)"
+                    onPress={this._signOutAsync}
                 />
             </View>
         );
